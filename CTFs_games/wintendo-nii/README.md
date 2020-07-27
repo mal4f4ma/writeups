@@ -50,22 +50,18 @@ Por lo tanto vemos que el input es una codificacion hexadecimal de la version de
 
 Vemos aqui los pedazos de codigo.
 
-![alt text][img1]
-[img1]: https://github.com/mal4f4ma/writeups/blob/master/CTFs_games/wintendo-nii/img/ida_1.JPG
+![alt text](https://github.com/mal4f4ma/writeups/blob/master/CTFs_games/wintendo-nii/img/ida_1.JPG)
 
-![alt text][img2]
-[img2]: https://github.com/mal4f4ma/writeups/blob/master/CTFs_games/wintendo-nii/img/ida_2.JPG
+![alt text](https://github.com/mal4f4ma/writeups/blob/master/CTFs_games/wintendo-nii/img/ida_2.JPG)
 
 
 Despues de pasar esas validaciones hace una operacion mas y posteriormente procede a ejecutar parte del input que va despues del string de la consola y el juego, lo que nos da una idea que a lo mejor el tenemos que pasar un shellcode.
 
 Analizando mas a fondo vemos que es un header del mismo codifo que le estamos pasando, en caso de no ser este la ejecucion temrina.
 
-![alt text][img3]
-[img3]: https://github.com/mal4f4ma/writeups/blob/master/CTFs_games/wintendo-nii/img/ida_3.JPG
+![alt text](https://github.com/mal4f4ma/writeups/blob/master/CTFs_games/wintendo-nii/img/ida_3.JPG)
 
-![alt text][img4]
-[img4]: https://github.com/mal4f4ma/writeups/blob/master/CTFs_games/wintendo-nii/img/ida_.JPG
+![alt text](https://github.com/mal4f4ma/writeups/blob/master/CTFs_games/wintendo-nii/img/ida_.JPG)
 
 ## Solution
 
