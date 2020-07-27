@@ -31,7 +31,7 @@ int main(){puts(flag);}
 ```
 
 Al correr el programa vemos que nos pide un input y nos muestra uno simbolos chinos que traducidos dicen "En 2020, Wentian Software Company-Todos los derechos reservados.
-Por favor inserte el disco del juego", intenamos con un nombre de los juegos que encontramos enlos strings y nada sucede.
+Por favor inserte el disco del juego", intenamos con un nombre de los juegos que encontramos en los strings y nada sucede.
 
 ```
 root@n0tM4l4f4m4:~/Documents/CTFsGames/2020/redPwnCTF/rev/nii# ./nii
