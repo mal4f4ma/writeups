@@ -159,4 +159,4 @@ flag{shellcoding_is_a_rev_skill,_too!_8F13E8F6}
 ```
 
 ## Flag
-__flag{shellcoding_is_a_rev_skill,_too!_8F13E8F6}__
+**flag{shellcoding_is_a_rev_skill,_too!_8F13E8F6}**
