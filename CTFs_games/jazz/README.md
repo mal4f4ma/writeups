@@ -212,7 +212,7 @@ flag = []
 for i in pt:
     flag.append(chr(arrays[x][y%0x25].index(i)))
     x += 1
-    y += 0
+    y += 1
     pass
 
 print(''.join(flag))

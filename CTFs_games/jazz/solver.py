@@ -51,8 +51,12 @@ encrypted = [0xbc, 0xc0, 0x0a, 0xbc, 0x5e, 0xf9, 0xb6, 0xd5, 0xc5, 0x08, 0x4d, 0
 dec_cipher = AES.new(key, AES.MODE_CBC, iv)
 pt = dec_cipher.decrypt(encrypted)
 x = 0
+y = 0
 flag = []
 for i in pt:
-    flag.append(chr(arrays[x % 0x25].index(i)))
+    flag.append(chr(arrays[x][y%0x25].index(i)))
+    x += 1
+    y += 1
+    pass
 
 print(''.join(flag))
