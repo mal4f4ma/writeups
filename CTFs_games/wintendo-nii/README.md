@@ -42,7 +42,7 @@ MaroCart
 
 ## Analysis
 
-Procedemos a desensamblar el binario en IDa 7.0, al ser un binario stripped no tiene simbolos por lo que nos es un poco mas dificil encontrar el main, sin embargo encontramos el entry_point del programa y empezaremos por ahi.
+Procedemos a desensamblar el binario en IDA 7.0, al ser un binario stripped no tiene simbolos por lo que nos es un poco mas dificil encontrar el main, sin embargo encontramos el entry_point del programa y empezaremos por ahi.
 
 Vemos las lineas donde el programa recibe el input y lo manda a una funcion que despues de analizar el codigo es una validacion de que sean numeros hexadecimales de los strings que vimos previamente.
 
