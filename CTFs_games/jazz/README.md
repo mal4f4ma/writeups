@@ -55,34 +55,34 @@ Vamos a desensamblar el binario en IDA, vamos a poder ver los simbolos y nombres
 
 Al ver la lista de funciones buscamos la funcion main y vemos que hay 2, vamos a empezar analizando la funcion __jazz:main__
 
-![alt text]() img_1
+![alt text](https://github.com/mal4f4ma/writeups/blob/master/CTFs_games/jazz/img/img_1.JPG)
 
 Al ver la grafica de la funcion vemos que es un pco compleja
 
-![alt text]() img_2
+![alt text](https://github.com/mal4f4ma/writeups/blob/master/CTFs_games/jazz/img/img_2.JPG)
 
 Vamos a empezar analizando estaticamente
 
 Al comienzo vemos que efectivamente evalua que el programa corra con 2 argumentos, como sabemos el primero es el nombre del programa y el segundo debe ser pasado por consola, tambien obervamos la linea donde impreme el primer mensaje.
 
-![alt text]() img_3
+![alt text](https://github.com/mal4f4ma/writeups/blob/master/CTFs_games/jazz/img/img_3.JPG)
 
 Despues vemos un ciclo para llenar un array del 0x0 al 0xFF
 
-![alt text]() img_4
+![alt text](https://github.com/mal4f4ma/writeups/blob/master/CTFs_games/jazz/img/img_4.JPG)
 
 Para posterioremente tomar numero random de aqui y llenar 0x25 arreglos que posteriormente los usaremos.
 
-![alt text]() img_5
+![alt text](https://github.com/mal4f4ma/writeups/blob/master/CTFs_games/jazz/img/img_5.JPG)
 
 Continuando con el analisis vemos que los bytes nuestros input es usado como indice para estos arreglos y obtener un caracter de estos.
 
-![alt text]() img_6
+![alt text](https://github.com/mal4f4ma/writeups/blob/master/CTFs_games/jazz/img/img_6.JPG)
 
 El array que resulta de estas operaciones es pasado a una funcion [crypto::aes::cbc_encryptor](https://docs.rs/rust-crypto/0.2.36/crypto/aes/fn.cbc_encryptor.html) y de acuerdo con la documentacion de esta funcion los argumentos que se le pasan son el key_size, key, iv y padding.
 
-![alt text]() img_7
-![alt text]() img_8
+![alt text](https://github.com/mal4f4ma/writeups/blob/master/CTFs_games/jazz/img/img_9.JPG)
+![alt text](https://github.com/mal4f4ma/writeups/blob/master/CTFs_games/jazz/img/img_8.JPG)
 
 Debuggueando el programa pude encontrar que el valor de la key y el IV (Initialization vector) vienen dentro del mismo, por lo que podemos extraer sus valores
 
@@ -98,7 +98,7 @@ Despues des escritar el array el resultado cifrado es comparado con otro buffer 
 encrypted = [0xbc, 0xc0, 0x0a, 0xbc, 0x5e, 0xf9, 0xb6, 0xd5, 0xc5, 0x08, 0x4d, 0xb1, 0x55, 0x09, 0x34, 0x95, 0x12, 0xce, 0x67, 0x08, 0xfb, 0x8a, 0xf1, 0xd2, 0x1a, 0xd8, 0x2b, 0x64, 0x28, 0xc2, 0x39, 0x72, 0xb4, 0x42, 0x68, 0x7a, 0x38, 0x23, 0xcf, 0x04, 0x90, 0x34, 0x98, 0xe1, 0xe8, 0xb0, 0x0c, 0x69, 0x1d, 0x22, 0xb9, 0x61, 0x1f, 0x17, 0x2a, 0x5d, 0xe1, 0xff, 0x5c, 0x7d, 0x31, 0xbe, 0x1a, 0x6b, 0xd7, 0x1f, 0xa2, 0x43, 0x18, 0xab, 0xcc, 0x57, 0xd0, 0x8d, 0x5f, 0xcc, 0x43, 0x2c, 0x43, 0x69, 0x96, 0xec, 0xce, 0x78, 0xa9, 0x06, 0xdd, 0x8e, 0x11, 0xa1, 0xfe, 0xca, 0x34, 0x0b, 0x90, 0xcb]
 ```
 
-![alt text]() img_9
+![alt text](https://github.com/mal4f4ma/writeups/blob/master/CTFs_games/jazz/img/img_9.JPG)
 
 ## Solution
 
