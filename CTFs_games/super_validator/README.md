@@ -12,11 +12,11 @@ En este ultimo reto nos dan un __.exe__, vamos usar la herramineta [DIE (Detect 
 
 ![alt text](https://github.com/mal4f4ma/writeups/blob/master/CTFs_games/super_validator/img/img_1.JPG)
 
-Obeservamos que es un binario de 32 bits y aunque no vemos lo que se uso para compilar el binario pasaremos a ver los *strings*.
+Obeservamos que es un binario de *32 bits* y aunque no vemos lo que se uso para compilar el binario pasaremos a ver los *strings*.
 
 ![alt text](https://github.com/mal4f4ma/writeups/blob/master/CTFs_games/super_validator/img/img_2.JPG)
 
-Podemos observar texto interesante,vemos el texto donde parece que logramos obtener la llave que pide el programa.
+Podemos observar texto interesante,vemos el texto donde parece que logramos obtener la llave que pide el programa **dING DinG DINg!!!!! Deberias trabajar para la NSA!!!!**, esto mas tarde nos ayudara al momento de desensamblar el archivo.
 
 Los otros *strings* nos muestran que se uso [MinGW](https://en.wikipedia.org/wiki/MinGW) para compilar el binario, lo que nos indica que posiblemente este escrito en __C/C++__.
 
@@ -154,7 +154,6 @@ Con todas estas condiciones ya identificadas podemos armar el **script** para re
 
 Usaremos [Z3 SMT Solver](https://github.com/Z3Prover/z3), Z3 es un *Theorem Prover* desarrollado por *Microsoft* el cual nos ayudara a calcular todas esas condiciones de cada caracter de la llave lo cual nos dara la *flag*.
 
-
 ## Solution
 
 Aqui tenemos el *script* que resuleve todas las conficiones anteriores.
@@ -234,6 +233,8 @@ PS C:\Users\n0tM4laf4m4\Documents\super_validador> .\SuperValidador3000.exe
 Llave: hackdef{U51n6-Z3_1s-f4St3R}
 dING DinG DINg!!!!! Deberias trabajar para la NSA!!!!
 ```
+
+Funciono!
 
 ## FLAG
 
