@@ -1,12 +1,13 @@
-# Super validador 3000
+# Super validador 3000 - rev 400
 
+#### Chall desc
 Reto de la categoria de reversing hackDef4 quals 2020
 
 Es momento de algo serio, encuentra la llave y obten la flag!
 
 ## File recognition
 
-En este ultimo reto nos dan un __.exe__ de windows, vamos usar la herramineta [DIE (Detect It Easy)](http://ntinfo.biz/index.html) para hacer el roconocimiento del binario
+En este ultimo reto nos dan un __.exe__, vamos usar la herramineta [DIE (Detect It Easy)](http://ntinfo.biz/index.html) para hacer el reconocimiento del binario.
 
 ![alt text](https://github.com/mal4f4ma/writeups/blob/master/CTFs_games/super_validator/img/img_1.JPG)
 
@@ -14,27 +15,29 @@ Obeservamos que es un binario de 32 bits y aunque no vemos lo que se uso para co
 
 ![alt text](https://github.com/mal4f4ma/writeups/blob/master/CTFs_games/super_validator/img/img_2.JPG)
 
-Podemos observar texto interesante, unas nos indican algun texto donde parece que logramos obtener la llave que pide el programa.
+Podemos observar texto interesante,vemos el texto donde parece que logramos obtener la llave que pide el programa.
 
-Los otros strings nos muestran que se uso [MinGW](https://en.wikipedia.org/wiki/MinGW) para compilar el binario, lo que nos indica que posiblemente este escrito en __C/C++__.
+Los otros *strings* nos muestran que se uso [MinGW](https://en.wikipedia.org/wiki/MinGW) para compilar el binario, lo que nos indica que posiblemente este escrito en __C/C++__.
 
 Pasamos a ejecutar el binario en la terminal para ver de que va.
 
 ```
-PS C:\Users\n0tM4laf4m4\Documents\validatorr> .\SuperValidador3000.exe
+PS C:\Users\n0tM4laf4m4\Documents\super_validador> .\SuperValidador3000.exe
 Llave: some_key
 Checksum SHA-5119 Invalido!!!
 ```
 
-Vemos que al ejecutar nos pide una llave que psiblemente sea la bandera, al meter la llave nos da un mensaje de que el *Checksum* es invalido.
+Vemos que al ejecutar nos pide una llave que posiblemente sea la bandera, al meter la llave nos da un mensaje de que el *Checksum* es invalido.
 
 Vamos a desensamblar el binario en IDA 7.0 para empezar el *reversing*.
+
+## Analysis
 
 Empezaremos con la funcion **_main**.
 
 ![alt text](https://github.com/mal4f4ma/writeups/blob/master/CTFs_games/super_validator/img/img_3.JPG)
 
-Vemos que aqui nos imprime el mensaje donde pide la llave y posteriormente la lee fon __fgets__
+Vemos que aqui nos imprime el mensaje donde pide la llave y posteriormente la lee con __fgets__
 
 Despues de esto pasa nuestro *input* a una funcion que cuenta los *bytes* de la llave que metimos.
 
@@ -42,27 +45,27 @@ Seguimos con el analisis y encontramos un ciclo for que guarda el valor 0 en __E
 
 ![alt text](https://github.com/mal4f4ma/writeups/blob/master/CTFs_games/super_validator/img/img_4.JPG)
 
-Despues observamos una serie de validaciones con la operacion modulo y el largo de nuestra key, donde si no pasamos estas, nos vamos a un mensaje de error y nos saca del programa.
+Despues observamos una serie de validaciones con la operacion modulo y el largo de nuestra *key*, donde si no pasamos estas, nos vamos a un mensaje de error y nos saca del programa.
 
-Con esto deducimos el largo que tiene que tener nuestro key, en este caso son 27 *bytes*.
+Con esto deducimos que el largo que tiene que tener la llave son 27 *bytes*.
 
 ![alt text](https://github.com/mal4f4ma/writeups/blob/master/CTFs_games/super_validator/img/img_5.JPG)
 
 ![alt text](https://github.com/mal4f4ma/writeups/blob/master/CTFs_games/super_validator/img/img_6.JPG)
 
-Al pasar estas validaciones encontramos asignaciones de variables donde si ponemos atencion son los primeros 7 _bytes_ de la key, esta validacion se hace en un ciclo for descendente de 7 a 0, lo cual validaria, **{fedkcah** que es **hackdef{** al reves los cuel nos confirma que la llave es la _flag_.
+Al pasar estas validaciones encontramos asignaciones de variables donde si ponemos atencion son los primeros 7 _bytes_ de la llave, esta validacion se hace en un ciclo **for** descendente de 7 a 0, lo cual validaria, **{fedkcah** que es **hackdef{** al reves lo cual nos confirma que la llave es la _flag_.
 
 ![alt text](https://github.com/mal4f4ma/writeups/blob/master/CTFs_games/super_validator/img/img_7.JPG)
 
-A continuacion de esto hay una validacion del ultimo caracter de la key el cual es **0x7D** que en ASCII seria **}**, si este no es el final de la key nos imprime el mensaje de error y termina la ejecucion.
+A continuacion de esto hay una validacion del ultimo caracter de la llave la cual es **0x7D** que en ASCII seria **}**, si este no es el final de la llave nos imprime el mensaje de error y termina la ejecucion.
 
 ![alt text](https://github.com/mal4f4ma/writeups/blob/master/CTFs_games/super_validator/img/img_8.JPG)
 
-Al pasar esta validacion vemos que se copia el contenido de las llaves del key en un nuevo arreglo para utilizarlo posteriormente.
+Al pasar esta validacion vemos que se copia las **x** de la llave (hackdef{**xxxxxxxxxxxxxx**}) en un nuevo arreglo para utilizarlo posteriormente.
 
 ![alt text](https://github.com/mal4f4ma/writeups/blob/master/CTFs_games/super_validator/img/img_9.JPG)
 
-Despues empezamos las validaciones de cada 1 de los caracteres de lo que resta del key.
+Despues empezamos las validaciones de cada uno de los caracteres restantes de la llave.
 
 ![alt text](https://github.com/mal4f4ma/writeups/blob/master/CTFs_games/super_validator/img/img_10.JPG)
 
@@ -110,11 +113,17 @@ Vamos a sacar el pseudocodigo para enternderlo mejor.
         }
 ```
 
-Analizando el codigo anterior y con ayuda del ensamblador podemos deducir que **l** es l index de la key y cuando este coincide debe de estar en un rango expecifigo *Eg* **v16[l] <= 64 || v16[l] > 90** esto nos indica que ese caracter debe de estar entre 64 y 90 ASCII lo que nos da un rango de las letras mayusculas.
+Analizando el codigo anterior y con ayuda de las instrucciones en ensamblador podemos deducir que **l** es l index de la llave y cuando este coincide con algunos de los **IF** este debe de estar en un rango expecifico.
 
-Posteriormente vemos que el resultado de 3 funciones (v, vv, vvv) debe ser verdadero, vamos a analizar esas funciones.
+*Eg* **if ( (!l || l == 6 || l == 14 || l == 17) && (v16[l] <= 64 || v16[l] > 90) )** 
 
-A cada funcion le pasamos el resto de la flag, es decir lo que esta entre las llaves hackdef{xxxxxxxxxxxxx}
+Esto nos dice que los caracteres **6,1,14 y 17** del resto de la llave deben estar entre 64 y 90 lo que en la tabla ASCII vemos como todas las letras mayusculas y asi la logica de los demas **IF**.
+
+Posteriormente vemos que el resultado de 3 funciones **(v, vv, vvv)** debe ser verdadero.
+
+Vamos a analizar esas funciones.
+
+Recordemos que a cada funcion le pasamos el resto de la *flag* como *array*, es decir lo que esta entre las llaves hackdef{**xxxxxxxxxxxxx**}
 
 
 ##### Funcion v
@@ -138,16 +147,16 @@ return a1[15] + a1[13] + a1[12] - a1[14] - a1[16] + a1[17] == 218
 ```
 
 
-Las funciones hacen operaciones con ciertos caracteres algunas operaciones que dan resultados especificos.
+Las funciones hacen operaciones con ciertos caracteres del resto de la llave,estas operaciones dan resultados especificos, los cuales usaremos mas adelante.
 
-Con estas condiciones podemos armar el **script** para resolver el reto.
+Con todas estas condiciones ya identificadas podemos armar el **script** para resolver el reto.
 
 Usaremos [Z3 SMT Solver](https://github.com/Z3Prover/z3), Z3 es un *Theorem Prover* desarrollado por *Microsoft* el cual nos ayudara a calcular todas esas condiciones de cada caracter de la llave lo cual nos dara la *flag*.
 
 
 ## Solution
 
-Aqui tenemos el *script* que resuleve cual es la llave.
+Aqui tenemos el *script* que resuleve todas las conficiones anteriores.
 
 ```python
 #!/usr/bin/python3
@@ -215,6 +224,14 @@ Ejecutamos el script
 ```
 root@n0tM4l4f4m4:~/Documents/CTFsGames/2020/hackDefCTF/rev/super_validador# ./solver.py
 hackdef{U51n6-Z3_1s-f4St3R}
+```
+
+Comprobamos que la *flag* este correcta pasandola como llave al ejecutable.
+
+```
+PS C:\Users\n0tM4laf4m4\Documents\super_validador> .\SuperValidador3000.exe
+Llave: hackdef{U51n6-Z3_1s-f4St3R}
+dING DinG DINg!!!!! Deberias trabajar para la NSA!!!!
 ```
 
 ## FLAG
