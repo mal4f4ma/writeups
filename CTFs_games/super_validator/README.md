@@ -1,7 +1,8 @@
 # Super validador 3000 - rev 400
 
-#### Chall desc
 Reto de la categoria de reversing hackDef4 quals 2020
+
+#### Chall desc
 
 Es momento de algo serio, encuentra la llave y obten la flag!
 
