@@ -118,7 +118,7 @@ Analizando el codigo anterior y con ayuda de las instrucciones en ensamblador po
 
 *Eg.* 
 ```c++
-if ( (!l || l == 6 || l == 14 || l == 17) && (v16[l] <= 64 || v16[l] > 90) )*
+if ( (!l || l == 6 || l == 14 || l == 17) && (v16[l] <= 64 || v16[l] > 90) )
 ```
 
 Esto nos dice que los caracteres **6,1,14 y 17** del resto de la llave deben estar entre 64 y 90 lo que en la tabla ASCII vemos como todas las letras mayusculas y asi la logica de los demas **IF**.
